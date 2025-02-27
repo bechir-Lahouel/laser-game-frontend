@@ -2,6 +2,10 @@ import React, { useEffect, useState } from 'react';
 import Confetti from 'react-confetti';
 import './App.css';
 
+// Importation des logos
+import cityLogo from './assets/city.png';   // Logo pour l'équipe BLUE (1200x1200)
+import manuLogo from './assets/manu.png';     // Logo pour l'équipe RED (3000x2000)
+
 function App() {
   // Durée initiale de la partie (en secondes)
   const INITIAL_TIME = 30;
@@ -20,7 +24,6 @@ function App() {
   // Décrémente le chrono chaque seconde tant que la partie n'est pas terminée
   useEffect(() => {
     if (isGameOver) return;
-
     const timer = setInterval(() => {
       setTimeLeft((prev) => {
         if (prev <= 1) {
@@ -30,7 +33,6 @@ function App() {
         return prev - 1;
       });
     }, 1000);
-
     return () => clearInterval(timer);
   }, [isGameOver]);
 
@@ -40,10 +42,10 @@ function App() {
       setIsGameOver(true);
       if (blueScore > redScore) {
         setWinner('BLUE');
-        setBlueVictories((v) => v + 1); // Incrémente le compteur de victoires
+        setBlueVictories((v) => v + 1);
       } else if (redScore > blueScore) {
         setWinner('RED');
-        setRedVictories((v) => v + 1); // Incrémente le compteur de victoires
+        setRedVictories((v) => v + 1);
       } else {
         setWinner('EGALITE');
       }
@@ -51,7 +53,6 @@ function App() {
   }, [timeLeft, isGameOver, blueScore, redScore]);
 
   // Simulation d'augmentation de score (toutes les 2 secondes)
-  // Dans un vrai cas, vous écouteriez l’ESP32 (via WebSocket, MQTT, etc.)
   useEffect(() => {
     if (!isGameOver) {
       const interval = setInterval(() => {
@@ -83,7 +84,6 @@ function App() {
 
   // Écran final si la partie est terminée
   if (isGameOver) {
-    // Choix d'une couleur de fond pour l'écran final selon le vainqueur
     const screenClass =
       winner === 'BLUE'
         ? 'end-screen-blue'
@@ -93,8 +93,16 @@ function App() {
 
     return (
       <div className={`end-screen ${screenClass}`}>
-        {/* Effet confettis (optionnel) si pas égalité */}
+        {/* Effet confettis (optionnel) si ce n'est pas une égalité */}
         {winner !== 'EGALITE' && <Confetti />}
+        
+        {/* Affichage du logo de l'équipe gagnante */}
+        {winner === 'BLUE' && (
+          <img src={cityLogo} alt="Logo Team Blue" className="team-logo" />
+        )}
+        {winner === 'RED' && (
+          <img src={manuLogo} alt="Logo Team Red" className="team-logo" />
+        )}
 
         <h1 className="end-title">
           {winner === 'EGALITE'
@@ -109,7 +117,8 @@ function App() {
           <p>TEAM RED : {redVictories} victoire(s)</p>
         </div>
 
-        <button onClick={handleRestart} className="restart-button">
+        {/* Bouton Restart, placé en bas, centré */}
+        <button onClick={handleRestart} className="restart-button center-bottom">
           RESTART
         </button>
       </div>
@@ -122,27 +131,26 @@ function App() {
       <div className="scoreboard">
         {/* Zone bleue */}
         <div className="team-area blue-side">
+          <img src={cityLogo} alt="Logo Team Blue" className="team-logo" />
           <div className="team-label">TEAM BLUE</div>
           <div className="team-score">{formatTime(blueScore)}</div>
         </div>
 
         {/* Timer au centre : barre de progression + texte */}
         <div className="timer-wrapper">
-          <div
-            className="timer-bar"
-            style={{ width: `${timerProgress}%` }}
-          ></div>
+          <div className="timer-bar" style={{ width: `${timerProgress}%` }}></div>
           <div className="timer-text">{formatTime(timeLeft)}</div>
         </div>
 
         {/* Zone rouge */}
         <div className="team-area red-side">
+          <img src={manuLogo} alt="Logo Team Red" className="team-logo" />
           <div className="team-label">TEAM RED</div>
           <div className="team-score">{formatTime(redScore)}</div>
         </div>
       </div>
 
-      {/* Bouton Restart centré en bas */}
+      {/* Bouton Restart centré en bas (en cours de partie) */}
       <button className="restart-button center-bottom" onClick={handleRestart}>
         RESTART
       </button>
