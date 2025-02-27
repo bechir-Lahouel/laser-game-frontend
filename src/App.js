@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-// Installez react-confetti si vous voulez l'effet final
 import Confetti from 'react-confetti';
 import './App.css';
 
@@ -13,6 +12,10 @@ function App() {
   const [redScore, setRedScore] = useState(0);
   const [isGameOver, setIsGameOver] = useState(false);
   const [winner, setWinner] = useState(null);
+
+  // Leaderboard (nombre de victoires totales)
+  const [blueVictories, setBlueVictories] = useState(0);
+  const [redVictories, setRedVictories] = useState(0);
 
   // Décrémente le chrono chaque seconde tant que la partie n'est pas terminée
   useEffect(() => {
@@ -37,8 +40,10 @@ function App() {
       setIsGameOver(true);
       if (blueScore > redScore) {
         setWinner('BLUE');
+        setBlueVictories((v) => v + 1); // Incrémente le compteur de victoires
       } else if (redScore > blueScore) {
         setWinner('RED');
+        setRedVictories((v) => v + 1); // Incrémente le compteur de victoires
       } else {
         setWinner('EGALITE');
       }
@@ -73,25 +78,37 @@ function App() {
     return `${m}:${s}`;
   };
 
+  // Calcul pour la barre de progression du timer
+  const timerProgress = (timeLeft / INITIAL_TIME) * 100;
+
   // Écran final si la partie est terminée
   if (isGameOver) {
     // Choix d'une couleur de fond pour l'écran final selon le vainqueur
     const screenClass =
-      winner === 'BLUE' ? 'end-screen-blue' :
-      winner === 'RED'  ? 'end-screen-red' :
-                          'end-screen-egalite';
+      winner === 'BLUE'
+        ? 'end-screen-blue'
+        : winner === 'RED'
+        ? 'end-screen-red'
+        : 'end-screen-egalite';
 
     return (
       <div className={`end-screen ${screenClass}`}>
-        {/* Effet confettis (optionnel) */}
+        {/* Effet confettis (optionnel) si pas égalité */}
         {winner !== 'EGALITE' && <Confetti />}
-        
-        <h1>
+
+        <h1 className="end-title">
           {winner === 'EGALITE'
             ? 'ÉGALITÉ !'
-            : `TEAM ${winner} WINS !`
-          }
+            : `TEAM ${winner} WINS !`}
         </h1>
+
+        {/* Leaderboard */}
+        <div className="leaderboard">
+          <h2>Leaderboard</h2>
+          <p>TEAM BLUE : {blueVictories} victoire(s)</p>
+          <p>TEAM RED : {redVictories} victoire(s)</p>
+        </div>
+
         <button onClick={handleRestart} className="restart-button">
           RESTART
         </button>
@@ -102,33 +119,33 @@ function App() {
   // Écran principal
   return (
     <div className="container">
-      {/* Bouton Restart en haut à droite */}
-      <button className="restart-button" onClick={handleRestart}>
-        RESTART
-      </button>
-
       <div className="scoreboard">
         {/* Zone bleue */}
         <div className="team-area blue-side">
           <div className="team-label">TEAM BLUE</div>
-          <div className="team-score">
-            {formatTime(blueScore)}
-          </div>
+          <div className="team-score">{formatTime(blueScore)}</div>
         </div>
 
-        {/* Chrono au centre */}
-        <div className="timer-area">
-          {formatTime(timeLeft)}
+        {/* Timer au centre : barre de progression + texte */}
+        <div className="timer-wrapper">
+          <div
+            className="timer-bar"
+            style={{ width: `${timerProgress}%` }}
+          ></div>
+          <div className="timer-text">{formatTime(timeLeft)}</div>
         </div>
 
         {/* Zone rouge */}
         <div className="team-area red-side">
           <div className="team-label">TEAM RED</div>
-          <div className="team-score">
-            {formatTime(redScore)}
-          </div>
+          <div className="team-score">{formatTime(redScore)}</div>
         </div>
       </div>
+
+      {/* Bouton Restart centré en bas */}
+      <button className="restart-button center-bottom" onClick={handleRestart}>
+        RESTART
+      </button>
     </div>
   );
 }
