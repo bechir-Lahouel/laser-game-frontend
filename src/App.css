@@ -1,102 +1,149 @@
-/* App.css */
+/* Import d'une police futuriste (Orbitron) depuis Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
 
-/* Remise à zéro du body */
-body {
+/* Réinitialisation de base */
+* {
   margin: 0;
   padding: 0;
-  font-family: sans-serif;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Orbitron', sans-serif;
   background: #eee;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
 }
 
 /* Conteneur global */
 .container {
   position: relative;
-  width: 100vw;
-  height: 100vh;
-}
-
-/* Bouton Restart en haut à droite */
-.restart-button {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  background: #fff;
-  border: 2px solid #333;
-  border-radius: 4px;
-  padding: 10px 16px;
-  cursor: pointer;
-  font-weight: bold;
-  transition: 0.3s;
-}
-.restart-button:hover {
-  background: #f0f0f0;
-}
-
-/* Scoreboard : partie haute de l'écran */
-.scoreboard {
   width: 100%;
-  height: 40%;
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  background: linear-gradient(to right, #4da6ff 50%, #ff9999 50%);
-  position: absolute;
-  top: 0;
-  left: 0;
+  height: 100%;
 }
 
-/* Zone d'équipe (bleue ou rouge) */
+/* Scoreboard : occupe une bonne partie de l'écran en hauteur (ex: 70%) */
+.scoreboard {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 90%;
+  background: linear-gradient(to right, #4da6ff 50%, #ff9999 50%);
+}
+
+/* Zones d'équipe plus grandes (45% chacune) */
 .team-area {
+  width: 45%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding : 250px;
 }
 
 .blue-side {
-  width: 40%;
-  text-align: center;
-  color: #fff;
+  color: #ffffff;
 }
 
 .red-side {
-  width: 40%;
-  text-align: center;
-  color: #fff;
+  color: #ffffff;
 }
 
 .team-label {
-  font-size: 1.5rem;
-  margin-bottom: 10px;
+  font-size: 2rem;
+  margin-bottom: 20px;
   text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .team-score {
-  font-size: 2rem;
+  font-size: 3rem;
   font-weight: bold;
 }
 
-/* Zone du timer au centre */
-.timer-area {
+/* Timer au centre */
+.timer-wrapper {
+  position: relative;
+  width: 200px;
+  height: 30px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 15px;
+  margin: 0 20px;
+  overflow: hidden;
+}
+
+.timer-bar {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
   background: #fff;
-  color: #333;
-  font-size: 3rem;
+  transition: width 0.5s linear;
+}
+
+.timer-text {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  line-height: 30px;
   font-weight: bold;
-  padding: 20px 30px;
-  border-radius: 10px;
-  border: 2px solid #ccc;
+  color: #333;
+}
+
+/* Bouton Restart */
+.restart-button {
+  background: #000;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 15px 25px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: 0.3s;
+}
+
+.restart-button:hover {
+  background: #333;
+}
+
+/* Bouton centré en bas */
+.center-bottom {
+  position: absolute;
+  bottom: -100px;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 /* Écran de fin de partie */
 .end-screen {
-  width: 100vw;
-  height: 100vh;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  color: #fff;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  color: #fff;
-  position: relative;
+  padding : 200px;
+}
+
+.end-screen h1.end-title {
+  font-size: 3rem;
+  margin-bottom: 30px;
+}
+
+.leaderboard {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.leaderboard h2 {
+  font-size: 2rem;
+  margin-bottom: 10px;
 }
 
 /* Couleurs différentes selon le vainqueur */
@@ -110,11 +157,4 @@ body {
 
 .end-screen-egalite {
   background: #444; /* Gris */
-}
-
-/* Titre vainqueur */
-.end-screen h1 {
-  font-size: 3rem;
-  margin: 0;
-  margin-bottom: 30px;
 }
