@@ -11,36 +11,36 @@
 body {
   font-family: 'Orbitron', sans-serif;
   background: #eee;
-  height: 100vh;
-  width: 100vw;
   overflow: hidden;
 }
 
 /* Conteneur global */
 .container {
   position: relative;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
-/* Scoreboard : occupe 90% de la fenêtre en hauteur */
+/* Scoreboard : occupe environ 90% de la hauteur */
 .scoreboard {
   display: flex;
-  justify-content: space-between;
+  flex: 1;
+  justify-content: space-around;
   align-items: center;
-  height: 90%;
   background: linear-gradient(to right, #3b5998 50%, #d72b2b 50%);
 }
 
-/* Zones d'équipe plus grandes (45% chacune) */
+/* Zones d'équipe */
 .team-area {
-  width: 45%;
-  height: 100%;
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 210px; /* Ajustez si besoin, car 250px est très grand */
+  padding: 2rem;
+  text-align: center;
 }
 
 .blue-side {
@@ -51,32 +51,21 @@ body {
   color: #ffffff;
 }
 
+/* Logos des équipes */
 .team-logo {
-  max-height: 80px;    /* Taille maximale pour harmoniser l'affichage */
+  max-height: 5rem; /* 80px environ */
   width: auto;
-  margin-bottom: 10px;
-}
-
-.team-label {
-  font-size: 2rem;
-  margin-bottom: 20px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.team-score {
-  font-size: 3rem;
-  font-weight: bold;
+  margin-bottom: 0.5rem;
 }
 
 /* Timer au centre */
 .timer-wrapper {
   position: relative;
-  width: 460px;
-  height: 50px;
+  width: 30vw;
+  max-width: 500px;
+  height: 3.125rem; /* 50px */
   background: rgba(255, 255, 255, 0.3);
-  border-radius: 15px;
-  margin: 0 20px;
+  border-radius: 0.9375rem; /* 15px */
   overflow: hidden;
 }
 
@@ -93,19 +82,20 @@ body {
   position: absolute;
   width: 100%;
   text-align: center;
-  line-height: 50px;
+  line-height: 3.125rem; /* 50px */
   font-weight: bold;
-  font-size: 1.5rem; 
+  font-size: 1.5rem;
   color: #333;
 }
 
-/* Bouton Restart */
-.restart-button {
+/* Boutons */
+.restart-button,
+.start-button {
   background: #000;
   color: #fff;
   border: none;
-  border-radius: 8px;
-  padding: 15px 25px;
+  border-radius: 0.5rem;
+  padding: 0.9375rem 1.5625rem; /* 15px 25px */
   font-size: 1.2rem;
   cursor: pointer;
   text-transform: uppercase;
@@ -113,55 +103,78 @@ body {
   transition: 0.3s;
 }
 
-.restart-button:hover {
+.restart-button:hover,
+.start-button:hover {
   background: #333;
 }
 
 /* Bouton centré en bas */
 .center-bottom {
   position: absolute;
-  bottom: -100px; /* Décalage pour qu'il apparaisse dans la zone blanche */
+  bottom: 1.875rem; /* 30px */
   left: 50%;
   transform: translateX(-50%);
 }
 
-/* Écran de fin de partie */
-.end-screen {
-  position: relative;   /* pour le positionnement absolu */
-  width: 100%;
-  height: 90%;          /* même hauteur que le scoreboard, si vous voulez le même rendu */
-  color: #fff;
+/* Écran de fin de partie et écran de démarrage */
+.end-screen,
+.start-screen {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 180px;       /* Ajustez selon vos besoins */
+  width: 100vw;
+  height: 100vh;
+  padding: 2rem;
+  text-align: center;
 }
 
-.end-screen h1.end-title {
+.end-screen h1.end-title,
+.start-screen h1.start-title {
   font-size: 3rem;
-  margin-bottom: 30px;
+  margin-bottom: 1.875rem; /* 30px */
 }
 
+/* Leaderboard */
 .leaderboard {
   text-align: center;
-  margin-bottom: 40px;
+  margin-bottom: 2.5rem; /* 40px */
 }
 
 .leaderboard h2 {
   font-size: 2rem;
-  margin-bottom: 10px;
+  margin-bottom: 0.625rem; /* 10px */
 }
 
-/* Couleurs différentes selon le vainqueur */
+/* Couleurs de l'écran de fin */
 .end-screen-blue {
-  background: #3b5998; /* Bleu foncé */
+  background: #3b5998;
 }
 
 .end-screen-red {
-  background: #d72b2b; /* Rouge foncé */
+  background: #d72b2b;
 }
 
 .end-screen-egalite {
-  background: #444; /* Gris */
+  background: #444;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .timer-wrapper {
+    width: 60vw;
+  }
+  .team-area {
+    padding: 1rem;
+  }
+  .team-label {
+    font-size: 1.5rem;
+  }
+  .team-score {
+    font-size: 2rem;
+  }
+  .end-screen h1.end-title,
+  .start-screen h1.start-title {
+    font-size: 2.5rem;
+  }
 }
